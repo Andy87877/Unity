@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
-public class Ch : MonoBehaviour
+public class Chess : MonoBehaviour
 {
     // 四個瞄點的位置
     public GameObject LeftTop;
@@ -45,6 +46,10 @@ public class Ch : MonoBehaviour
 
     // 棋盤上的落子狀態
     List<List<int>> chessState;
+
+    int winner = 0; //誰是贏家 初始化=0
+    bool isPlaying = true; // 是否遊戲正在進行
+
     int flag = 0; // 判斷是哪一方下棋
 
     // Start is called before the first frame update
@@ -63,6 +68,18 @@ public class Ch : MonoBehaviour
         }
     }
 
+    // 重新開始
+    private void Restart() { 
+        for (int i = 0; i < 15; i++) { 
+            for (int j = 0; j < 15; j++) {
+                chessState[i][j] = 0;
+            }
+        }
+        isPlaying = true;
+        winner = 0;
+        flag = 0;
+    }
+
     // Update is called once per frame
     void Update() {
         // 計算瞄點座標 (2維 vector)
@@ -78,22 +95,28 @@ public class Ch : MonoBehaviour
         minGridDis = gridWidth < gridHeight ? gridWidth : gridHeight;
 
         // 計算棋盤上可以落子的位置
-        for (int i = 0; i < 15; i++) { 
+        for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 chessPos[i][j] = new Vector2(LBPos.x + gridWidth * i, LBPos.y + gridHeight * j);
+                
             }
         }
 
+        //添加重新開始按鈕的監聽器
+        restartBtn.onClick.AddListener(Restart);
+
         Vector3 PointPos;
-        if (Input.GetMouseButtonDown(0)) { //滑鼠按下左鍵
+        if (isPlaying && Input.GetMouseButtonDown(0)) { //滑鼠按下左鍵
             PointPos = Input.mousePosition;
-            if (PlaceChess(PointPos)) {
+            if (PlaceChess(PointPos))
+            {
                 flag = 1 - flag;
             }
+            CheckWinFor();
         }
     }
 
-
+    // GUI
     private void OnGUI() {
         //繪製棋子
         for (int i = 0; i < 15; i++) {
@@ -106,6 +129,16 @@ public class Ch : MonoBehaviour
                     GUI.DrawTexture(new Rect(chessPos[i][j].x - gridWidth / 2, Screen.height - chessPos[i][j].y - gridHeight / 2, gridWidth, gridHeight), white);
                 }
             }
+        }
+
+        // 顯示獲勝方的圖片
+        if (winner == 1) { //black win
+            GUI.DrawTexture(new Rect(Screen.width * 0.05f, Screen.height * 0.15f, Screen.width * 0.2f,
+                Screen.height * 0.25f), blackWin);
+        }
+        if (winner == -1) { // white win
+            GUI.DrawTexture(new Rect(Screen.width * 0.05f, Screen.height * 0.15f, Screen.width * 0.2f,
+                Screen.height * 0.25f), whiteWin);
         }
     }
 
@@ -124,7 +157,7 @@ public class Ch : MonoBehaviour
         for (int i = 0; i < 15; i++) { 
             for (int j = 0; j < 15; j++) {
                 float dist = Distance(PointPos, chessPos[i][j]);
-                if (dist < minDis/2 && chessState[i][j] == 0)
+                if (dist < minDis / 2 && chessState[i][j] == 0)
                 {
                     minDis = dist;
                     closestPos = chessPos[i][j];
@@ -138,5 +171,102 @@ public class Ch : MonoBehaviour
             return true; // 成功放置棋子
         }
         return false; // 沒有放置棋子
+    }
+
+    //檢查五子棋連一起的獲勝函數
+    private int CheckWin(List<List<int>> board) { 
+        foreach(var boardList in board) {
+            // 假設boardList = [1,-1,0,0,1] 那使用Select()會回傳 ('X', 'O', ' ', ' ', 'O')組成的集合
+            // ToArray() 把這個字源序列轉換成字串 "XO  O"
+            // if (i == 1) 'X' else if (i == -1) 'O' else ' '
+            string boardRow = new string(boardList.Select(i => i == 1 ? 'X' : (i == -1 ? 'O' : ' ')).ToArray());
+
+            // 字串有包含"XXXXX"
+            if (boardRow.Contains("XXXXX")) {
+                return 1; // black win
+            } else if (boardRow.Contains("OOOOO")) {
+                return 0; // white win
+            }
+        }
+        return -1; // nobody win
+    }
+
+    private List<int> checkWinAll(List<List<int>> board) {
+        // 創建一個存反斜、正斜方向的二維列表
+        List<List<int>> boardC = new List<List<int>>(); // 反斜
+        List<List<int>> boardD = new List<List<int>>(); // 正斜
+
+        //算斜的方向有29個
+        for (int i = 0; i < 29; i++) {
+            // 分別表示包含29個空列表的二維列表
+            boardC.Add(new List<int>());
+            boardD.Add(new List<int>());
+        }
+
+
+        for (int i = 0; i < 15; i++) { 
+            for (int j = 0; j < 15; j++) {
+                boardC[i + j].Add(board[i][j]);
+                boardD[i - j + 14].Add(board[i][j]);
+
+
+                //string str = "BoardC[i + j]:";
+                //Debug.Log($"i: {i}, j: {j}, {str} boardC[{i + j}]: {string.Join(", ", boardC[i + j])}");
+                string str = "BoardD[i - j + 14]:";
+                Debug.Log($"i: {i}, j: {j}, {str} boardD[{i - j + 14}]: {string.Join(", ", boardD[i - j + 14])}");
+            }
+        }
+
+        // 最後輸出結果
+        Debug.Log("最終組合完結果");
+        Debug.Log("==========================");
+        for (int i = 0; i < boardC.Count; i++) {
+            string str = $"boardC[{i}]: ";
+            foreach (var item in boardC[i]) {
+                str += item + " ";
+            }
+            Debug.Log(str);
+        }
+        Debug.Log("==========================");
+        
+        
+        return new List<int> {
+            CheckWin(board),
+            CheckWin(transpose(board)),
+            CheckWin(boardC),
+            CheckWin(boardD)
+        };
+    }
+
+    private void CheckWinFor() {
+        List<int> result = checkWinAll(chessState);
+        if (result.Contains(0)) {
+            Debug.Log("白棋獲勝");
+            winner = -1;
+            isPlaying = false;
+        } else if (result.Contains(1)) {
+            Debug.Log("黑棋獲勝");
+            winner = 1;
+            isPlaying = false;
+        }
+    }
+
+    // 將列表做轉置的函數
+    private List<List<int>> transpose(List<List<int>> board) {
+        int rowMatrix = board.Count; // 取得整個二維列表一維列表的數量
+        int colMatrix = board[0].Count; // 取得一維列表的元素數量
+        
+        // 創建一個轉置後的二維列表
+        List<List<int>> transposed = new List<List<int>>();
+
+        for (int i = 0; i < colMatrix; i++) {
+            List<int> newRow = new List<int>();
+            for (int j = 0; j < rowMatrix; j++) {
+                newRow.Add(board[j][i]);
+            }
+            transposed.Add(newRow);
+        }
+
+        return transposed;
     }
 }
