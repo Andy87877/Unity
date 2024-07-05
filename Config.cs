@@ -29,10 +29,12 @@ public class Config : MonoBehaviour {
      * 主棋子數量_主棋子隔開的數量_編號
      */
     void InitializeValueModels() {
+
+        // 棋譜 !!!!
         valueModelXTest = new Dictionary<string, Dictionary<string, Tuple<string, int>>> {
             { "5", new Dictionary<string, Tuple<string, int>>
                 {
-                    {"5", Tuple.Create("XXXXX", 100000)} //連五棋型
+                    {"5", Tuple.Create("XXXXX", 10000)} //連五棋型
                 }
             },
             { "4", new Dictionary<string, Tuple<string, int>>
