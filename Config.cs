@@ -1,4 +1,3 @@
-//
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,14 +9,19 @@ public class Config : MonoBehaviour {
     // 定義存放黑棋棋型的字典
     /* {“紀錄黑棋數量”,{“棋型代號”,(“棋型”, 分數)}} */
     public Dictionary<string, Dictionary<string, Tuple<string, int>>> valueModelXTest;
-
     // 定義存放白棋棋型的字典
     public Dictionary<string, Dictionary<string, Tuple<string, int>>> valueModelOTest;
+
+    // 定義轉換後的棋行列表
+    public List<Dictionary<string, List<Tuple<string, int>>>> valueModelX { get; private set; }
+    public List<Dictionary<string, List<Tuple<string, int>>>> valueModelO { get; private set; }
+
 
 
     // Start is called before the first frame update
     void Start() {
-        
+        InitializeValueModels();
+        TransformValueModels();
     }
 
 
@@ -238,6 +242,12 @@ public class Config : MonoBehaviour {
         }
         return transformedList;
     }  
+
+    //
+    void TransformValueModels() {
+        valueModelO = TransformModel(valueModelOTest);
+        valueModelX = TransformModel(valueModelXTest);
+    }
 
 
     // Update is called once per frame
