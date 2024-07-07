@@ -39,22 +39,36 @@ public class Config : MonoBehaviour {
             },
             { "4", new Dictionary<string, Tuple<string, int>>
                 {
-                    {"4p_0", Tuple.Create(" XXXX ", 4000)}, //活四
-                    {"4p_0_1", Tuple.Create("OXXXX ", 2000)}, //活四
-                    {"4p_0_1", Tuple.Create(" XXXXO", 2000)}, //活四
+                    {"4p_0", Tuple.Create(" XXXX ", 200)}, //活四
+
+                    {"4p_0_1", Tuple.Create(" XXXX", 150)}, //活四
+                    {"4p_0_2", Tuple.Create("XXXX ", 150)}, //活四
 
 
-                    {"4_0_1", Tuple.Create(" XXXX", 100)}, //死四
+                    {"4p_0_3", Tuple.Create("OXXXX ", 100)}, //活四
+                    {"4p_0_4", Tuple.Create(" XXXXO", 100)}, //活四
+
 
                     /* 下面的棋型可以自己設計:D*/
-                    {"4_0_2", Tuple.Create("XXXX ", 100)}, //死四
-                    {"4_0_3", Tuple.Create("OXXXX ", 100)}, //死四
-                    {"4_0_4", Tuple.Create(" XXXXO", 100)}, //死四
+                    {"4_0_2", Tuple.Create("XXXX", 100)}, //死四
+                    {"4_0_3", Tuple.Create("OXXXX", 100)}, //死四
+                    {"4_0_4", Tuple.Create("XXXXO", 100)}, //死四
 
                     {"4_1_1", Tuple.Create("X XXX", 120)}, //死四-3
                     {"4_1_2", Tuple.Create("XXX X", 120)}, //死四-4
-
                     {"4_2_1", Tuple.Create("XX XX", 100)}, //死四
+
+                    {"4_1_3", Tuple.Create("OX XXX", 110)}, //死四-3
+                    {"4_1_4", Tuple.Create("OXXX X", 110)}, //死四-4
+                    {"4_2_2", Tuple.Create("OXX XX", 90)}, //死四
+
+                    {"4_1_5", Tuple.Create("X XXXO", 110)}, //死四-3
+                    {"4_1_6", Tuple.Create("XXX XO", 110)}, //死四-4
+                    {"4_2_3", Tuple.Create("XX XXO", 90)}, //死四
+
+                    {"4_1_7", Tuple.Create("OX XXXO", 90)}, //死四-3
+                    {"4_1_8", Tuple.Create("OXXX XO", 90)}, //死四-4
+                    {"4_2_4", Tuple.Create("OXX XXO", 70)}, //死四
                 }
             },
             // 3: 60down
@@ -103,92 +117,76 @@ public class Config : MonoBehaviour {
                     {"3_1_14", Tuple.Create("O XX X  O", 21)}, 
                     {"3_1_15", Tuple.Create("O XX X O", 20)}, 
 
-                    // 後兩個
-                    {"3p_1", Tuple.Create("  X XX  ", 55)},
-                    {"3_2_1", Tuple.Create("  X XX ", 25)},
-                    {"3_2_2", Tuple.Create(" X XX  ", 25)},
+                    // X XX
+                    {"3p_2", Tuple.Create("  X XX  ", 55)},
+                    {"3_2_1", Tuple.Create("  X XX ", 25)}, 
+                    {"3_2_2", Tuple.Create(" X XX  ", 25)}, 
                     {"3_2_3", Tuple.Create(" X XX ", 20)},
 
                     {"3_2_4", Tuple.Create("O  X XX  ", 53)},
-                    {"3_2_5", Tuple.Create("O  X XX ", 23)},
-                    {"3_2_6", Tuple.Create("O X XX  ", 23)},
-                    {"3_2_7", Tuple.Create("O X XX ", 21)},
+                    {"3_2_5", Tuple.Create("O  X XX ", 23)}, 
+                    {"3_2_6", Tuple.Create("O X XX  ", 23)}, 
+                    {"3_2_7", Tuple.Create("O X XX ", 21)}, 
 
-                    {"3_2_8", Tuple.Create("  X XX  O", 53)},
-                    {"3_2_9", Tuple.Create("  X XX O", 23)},
-                    {"3_2_10", Tuple.Create(" X XX  O", 23)},
-                    {"3_2_11", Tuple.Create(" X XX O", 21)},
+                    {"3_2_8", Tuple.Create("  X XX  O", 53)}, 
+                    {"3_2_9", Tuple.Create("  X XX O", 23)}, 
+                    {"3_2_10", Tuple.Create(" X XX  O", 23)}, 
+                    {"3_2_11", Tuple.Create(" X XX O", 21)}, 
 
-                    {"3_2_12", Tuple.Create("O  X XX  O", 51)},
-                    {"3_2_13", Tuple.Create("O  X XX O", 21)},
-                    {"3_2_14", Tuple.Create("O X XX  O", 21)},
-                    {"3_2_15", Tuple.Create("O X XX O", 20)},
-
-                    // 都空格
-                    {"3p_1", Tuple.Create("  X X X  ", 53)},
-                    {"3_2_1", Tuple.Create("  X X X ", 23)},
-                    {"3_2_2", Tuple.Create(" X X X  ", 23)},
-                    {"3_2_3", Tuple.Create(" X X X ", 20)},
-
-                    {"3_2_4", Tuple.Create("O  X X X  ", 51)},
-                    {"3_2_5", Tuple.Create("O  X X X ", 21)},
-                    {"3_2_6", Tuple.Create("O X X X  ", 21)},
-                    {"3_2_7", Tuple.Create("O X X X ", 20)},
-
-                    {"3_2_8", Tuple.Create("  X X X  O", 51)},
-                    {"3_2_9", Tuple.Create("  X X X O", 21)},
-                    {"3_2_10", Tuple.Create(" X X X  O", 21)},
-                    {"3_2_11", Tuple.Create(" X X X O", 20)},
-
-                    {"3_2_12", Tuple.Create("O  X X X  O", 49)},
-                    {"3_2_13", Tuple.Create("O  X X X O", 20)},
-                    {"3_2_14", Tuple.Create("O X X X  O", 20)},
-                    {"3_2_15", Tuple.Create("O X X X O", 20)},
-
+                    {"3_2_12", Tuple.Create("O  X XX  O", 51)}, 
+                    {"3_2_13", Tuple.Create("O  X XX O", 21)}, 
+                    {"3_2_14", Tuple.Create("O X XX  O", 21)}, 
+                    {"3_2_15", Tuple.Create("O X XX O", 20)}, 
                 }
             },
             /* 下面的棋型可以自己設計:D*/
             // 2: 20 down
             { "2", new Dictionary<string, Tuple<string, int>>
                 {
-                    {"2p_0", Tuple.Create("   XX   ", 20)}, //活二
+                    // 一定要活的
+                    {"2p_0", Tuple.Create("   XX   ", 30)}, //活二
 
                     {"2_0_1", Tuple.Create("   XX  ", 18)}, //活二-2
                     {"2_0_2", Tuple.Create("  XX   ", 18)}, //活二-2
 
-                    {"2_0_5", Tuple.Create("  XX  ", 16)}, //活二-3
-                    {"2_0_6", Tuple.Create("  XX  ", 16)}, //活二-3
-                    {"2_0_7", Tuple.Create("  XX ", 14)}, //活二-4
-                    {"2_0_8", Tuple.Create(" XX  ", 14)}, //活二-4
+                    {"2_0_3", Tuple.Create("  XX  ", 16)}, //活二-3
+                    {"2_0_4", Tuple.Create("  XX  ", 16)}, //活二-3
+                    {"2_0_5", Tuple.Create("  XX ", 14)}, //活二-4
+                    {"2_0_6", Tuple.Create(" XX  ", 14)}, //活二-4
 
                     // 白在左
-                    {"2p_0_9", Tuple.Create("O   XX   ", 19)}, //活二
+                    {"2p_1", Tuple.Create("O   XX   ", 17)}, //活二
 
-                    {"2_0_10", Tuple.Create("O   XX  ", 17)}, //活二-2
-                    {"2_0_11", Tuple.Create("O  XX   ", 17)}, //活二-2
+                    {"2_1_1", Tuple.Create("O   XX  ", 10)}, //活二-2
+                    {"2_1_2", Tuple.Create("O  XX   ", 10)}, //活二-2
 
-                    {"2_0_12", Tuple.Create("O  XX  ", 15)}, //活二-3
-                    {"2_0_13", Tuple.Create("O  XX  ", 15)}, //活二-3
-                    {"2_0_14", Tuple.Create("O  XX ", 13)}, //活二-4
-                    {"2_0_15", Tuple.Create("O XX  ", 13)}, //活二-4
+                    {"2_1_3", Tuple.Create("O  XX  ", 8)}, //活二-3
+                    {"2_1_4", Tuple.Create("O  XX  ", 8)}, //活二-3
+                    {"2_1_5", Tuple.Create("O  XX ", 4)}, //活二-4
+                    {"2_1_6", Tuple.Create("O XX  ", 4)}, //活二-4
 
-                    // 白在右
-                    {"2p_0_9", Tuple.Create("   XX   O", 19)}, //活二
+                    //  白在右
+                    {"2p_2", Tuple.Create("   XX   O", 17)}, //活二
 
-                    {"2_0_10", Tuple.Create("   XX  O", 17)}, //活二-2
-                    {"2_0_11", Tuple.Create("  XX   O", 17)}, //活二-2
+                    {"2_2_1", Tuple.Create("   XX  O", 10)}, //活二-2
+                    {"2_2_2", Tuple.Create("  XX   O", 10)}, //活二-2
 
-                    {"2_0_12", Tuple.Create("  XX  O", 15)}, //活二-3
-                    {"2_0_13", Tuple.Create("  XX  O", 15)}, //活二-3
-                    {"2_0_14", Tuple.Create("  XX O", 13)}, //活二-4
-                    {"2_0_15", Tuple.Create(" XX  O", 13)}, //活二-4
-
-
+                    {"2_2_3", Tuple.Create("  XX  O", 8)}, //活二-3
+                    {"2_2_4", Tuple.Create("  XX  O", 8)}, //活二-3
+                    {"2_2_5", Tuple.Create("  XX O", 4)}, //活二-4
+                    {"2_2_6", Tuple.Create(" XX  O", 4)}, //活二-4
 
 
-                    {"2_0_9", Tuple.Create(" XX ", 3)}, //死二
-                    {"2_0_10", Tuple.Create("  XX", 3)}, //死二
-                    {"2_0_11", Tuple.Create("XX  ", 3)}, //死二
+                     //  白在左右   
+                    {"2p_3", Tuple.Create("O   XX   O", 17)}, //活二
+
+                    {"2_3_1", Tuple.Create("O   XX  O", 10)}, //活二-2
+                    {"2_3_2", Tuple.Create("O  XX   O", 10)}, //活二-2
+
+                    {"2_3_3", Tuple.Create("O  XX  O", 8)}, //活二-3
+                    {"2_3_4", Tuple.Create("O  XX  O", 8)}, //活二-3
+                    {"2_3_5", Tuple.Create("O  XX O", 4)}, //活二-4
+                    {"2_3_6", Tuple.Create("O XX  O", 4)}, //活二-4
                 }
             }
         };

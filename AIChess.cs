@@ -137,7 +137,6 @@ public class AIChess : MonoBehaviour
         for (int i = 0; i < 15; i++) {
             for (int j = 0; j < 15; j++) {
                 chessPos[i][j] = new Vector2(LBPos.x + gridWidth * i, LBPos.y + gridHeight * j);
-                
             }
         }
 
@@ -154,6 +153,7 @@ public class AIChess : MonoBehaviour
         blackBtn.onClick.AddListener(() => chooseColor(0));
         whiteBtn.onClick.AddListener(() => chooseColor(1));
 
+        
 
         if (isPlaying) { 
             // 如果沒有獲勝方且是玩家回合 並且按下左鍵
@@ -501,13 +501,14 @@ public class AIChess : MonoBehaviour
 
         // 擴展搜尋範圍
         // 在已有棋子的範圍基礎上向外擴展2格，但不超出棋盤邊界
-        int startX = Math.Max(0, minX - 2);
-        int endX = Math.Min(14, minX + 2);
-        int starY = Math.Max(0, minY - 2);
-        int endY = Math.Min(14, minY + 2);
+        int startX = Math.Max(0, minX - 6);
+        int endX = Math.Min(14, minX + 6);
+        int starY = Math.Max(0, minY - 6);
+        int endY = Math.Min(14, minY + 6);
 
         // 遍歷擴展後得搜尋範圍內的每個位置
         for (int x = startX; x <= endX; x++) { 
+            // string show_score = "";
             for (int y = starY; y <= endY; y++) {
 
                 // 用來暫存在評估某個特定落子位置時產生的數據
@@ -549,21 +550,30 @@ public class AIChess : MonoBehaviour
 
                 // 計算綜合得分 
                 // AI得分增加*1.1 + 減少對手得分 + 阻止對手得到的分數
-                int scoreDiff = (int)(1.1 * (scoreA - scoreAI) + scoreOpponent - scoreAO + scoreO - scoreAO);
+                int scoreDiff = (int) ((1.1 * (scoreA - scoreAI) + scoreOpponent - scoreAO + scoreO - scoreAO));
+                // show_score += (scoreDiff + " ");
                 if (scoreDiff > bestScoreDiff) {
                     bestMoveOverall = (x, y);
                     bestScoreDiff = scoreDiff;
                 }
             }
+            // Debug.Log(show_score);
         }
 
+        Debug.Log("bestScoreAI " + bestScoreAI);
+        Debug.Log("bestScoreOpponent " + bestScoreOpponent);
+        Debug.Log("bestScoreDiff " + bestScoreDiff);
+        Debug.Log("--------------------");
+
+
+
         // 根據不同情況選擇最佳落子
-        if (bestScoreAI >= 5000)
+        if (bestScoreAI >= 1000)
         {
             // 如果AI能直接獲勝，就選擇這個AI的最佳位置落子
             return (bestMoveAI.Item1, bestMoveAI.Item2, bestScoreAI);
         }
-        else if (bestScoreOpponent >= 5000)
+        else if (bestScoreOpponent >= 1000)
         {
             // 如果對手能直接獲勝，AI會下這個位置阻擋對手的落子
             return (bestMoveOpponent.Item1, bestMoveOpponent.Item2, ValueAll(board, temp_list_opponent, color == 1
@@ -599,6 +609,8 @@ public class AIChess : MonoBehaviour
     private void AITurn() {
         //獲取最佳落子位置
         (int x, int y, int score) = ValueChess(chessState, userPlay == 1 ? 1 : -1);
+        
+
 
         Vector3 bestMove = chessPos[x][y]; 
         PlaceChess(bestMove, false); // 調用放置棋子的函數
