@@ -39,14 +39,14 @@ public class Config : MonoBehaviour {
             },
             { "4", new Dictionary<string, Tuple<string, int>>
                 {
-                    {"4p_0", Tuple.Create(" XXXX ", 200)}, //活四
+                    {"4p_0", Tuple.Create(" XXXX ", 500)}, //活四
 
-                    {"4p_0_1", Tuple.Create(" XXXX", 150)}, //活四
-                    {"4p_0_2", Tuple.Create("XXXX ", 150)}, //活四
+                    {"4p_0_1", Tuple.Create(" XXXX", 300)}, //活四
+                    {"4p_0_2", Tuple.Create("XXXX ", 300)}, //活四
 
 
-                    {"4p_0_3", Tuple.Create("OXXXX ", 90)}, //活四
-                    {"4p_0_4", Tuple.Create(" XXXXO", 90)}, //活四
+                    {"4p_0_3", Tuple.Create("OXXXX ", 100)}, //活四
+                    {"4p_0_4", Tuple.Create(" XXXXO", 100)}, //活四
 
 
                     /* 下面的棋型可以自己設計:D*/
